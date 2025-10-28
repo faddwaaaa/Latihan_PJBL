@@ -21,16 +21,17 @@ if (isset($_POST['submit'])) {
     $keuntungan = ($harga_jual - $harga_beli) * $jumlah;
     $id_user = $_SESSION['user_id'];
 
-    // Insert transaksi
     $db->query("INSERT INTO transaksi (id_user, id_produk, jumlah, harga_jual, subtotal, keuntungan, tanggal)
                 VALUES ('$id_user', '$id_produk', '$jumlah', '$harga_jual', '$subtotal', '$keuntungan', NOW())");
 
-    // Update stok
+    $id_transaksi = $db->getConnection()->insert_id;
+
     $db->query("UPDATE produk SET stok = stok - $jumlah WHERE id_produk = '$id_produk'");
 
-    header("Location: data_transaksi.php?success=1");
+    header("Location: struk.php?id=$id_transaksi");
     exit;
 }
+
 ?>
 
 <!DOCTYPE html>

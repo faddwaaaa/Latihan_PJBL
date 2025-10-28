@@ -124,5 +124,11 @@ class Fungsi {
                   ORDER BY t.tanggal DESC";
         return $this->query($query);
     }
+
+    public function getConnection() {
+        return $this->koneksi;
+    }
+
 }
+
 ?>
