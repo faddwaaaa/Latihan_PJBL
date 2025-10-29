@@ -7,12 +7,11 @@ if (!isset($_SESSION['user_name'])) {
     exit;
 }
 
-$db = new Fungsi();
+$dbStruk = new Fungsi();
 
 $id_transaksi = $_GET['id'];
 
-// Ambil data transaksi dan produk
-$result = $db->query("
+$result = $dbStruk->query("
     SELECT t.*, p.nama_produk, u.username
     FROM transaksi t
     JOIN produk p ON t.id_produk = p.id_produk
@@ -29,7 +28,7 @@ $data = $result->fetch_assoc();
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Struk Pembelian</title>
+<title>Struk #<?= $data['id_transaksi'] ?></title>
 <style>
 body {
     font-family: 'Courier New', monospace;
@@ -69,6 +68,12 @@ hr {
 @media print {
     body { margin: 0; }
 }
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}
+
 </style>
 </head>
 
@@ -133,9 +138,10 @@ hr {
 
     <div class="footer">
         <p>Terimakasih Telah Berbelanja</p>
-        <p>Link Kritik & Saran:</p>
-        <p>com/e-receipt/S-00<?= $data['id_transaksi'] ?>G</p>
+        <p>Barang yang sudah dibeli tidak dapat dikembalikan.</p>
+        <p><?= date('d/m/Y H:i') ?></p>
     </div>
-    <button><a href="user_produk.php">Kembali</a></button>
+    <button class="no-print"><a href="data_transaksi.php">Kembali</a></button>
+
 </body>
 </html>
